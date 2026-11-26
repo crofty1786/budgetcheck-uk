@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BudgetCheck UK | Autumn Budget 2026 Personal Impact & Tax-Shield Calculator</title>
+  <meta name="description" content="Calculate how the UK Autumn Budget 2026 affects your salary, savings interest, and rental income in 2026/27 vs 2027/28—and see how much tax you can save with a £20,000 Cash ISA and pension contributions." />
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              950: '#0a1628',
+              900: '#0f2342',
+              800: '#173561',
+              700: '#1e4680',
+              600: '#2563eb',
+              50: '#eff6ff',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Custom accessible range slider styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #0f2342;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(15, 35, 66, 0.35);
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      background: #2563eb;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #0f2342;
+      border: 3px solid #ffffff;
+      box-shadow: 0 2px 6px rgba(15, 35, 66, 0.35);
+      cursor: pointer;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="range"].emerald-slider::-webkit-slider-thumb {
+      background: #059669;
+    }
+    input[type="range"].emerald-slider::-moz-range-thumb {
+      background: #059669;
+    }
+
+    /* Smooth transitions for SVG chart bars */
+    .chart-bar-segment {
+      transition: y 0.35s cubic-bezier(0.22, 1, 0.36, 1), height 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+    }
+    .chart-bar-segment:hover {
+      opacity: 0.88;
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-blue-100 selection:text-brand-900">
+
+  <!-- Top Affiliate & Editorial Disclosure Bar -->
+  <div class="bg-brand-950 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
+      <p>
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+        <strong class="text-white">Independent UK Tax &amp; Policy Tool:</strong> Calculations reflect HM Treasury Autumn Budget 2026 &amp; April 2027 rate changes.
+      </p>
+      <p class="text-slate-400">
+        Editorial &amp; Affiliate Disclosure: Some partner links earn us a commission at £0 cost to you.
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Sticky Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2.5 group focus:outline-none">
+        <div class="w-9 h-9 rounded-xl bg-brand-900 text-white flex items-center justify-center font-extrabold text-lg shadow-sm group-hover:bg-blue-600 transition-colors">
+          £
+        </div>
+        <div class="flex flex-col">
+          <span class="font-extrabold text-brand-900 text-lg leading-none tracking-tight">BudgetCheck<span class="text-blue-600">UK</span></span>
+          <span class="text-[11px] font-medium text-slate-500 mt-0.5">Personal Policy &amp; Tax Simulator</span>
+        </div>
+      </a>
+
+      <!-- Live Policy Badge (Desktop) -->
+      <div class="hidden lg:flex items-center gap-2 bg-blue-50 border border-blue-200 text-brand-900 text-xs font-semibold px-3 py-1.5 rounded-full">
+        <svg class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        Updated for Autumn Budget 2026 &amp; 2027/28 Tax Rules
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex items-center gap-1 sm:gap-5 text-sm font-medium text-slate-600">
+        <a href="#calculator" class="px-2.5 py-2 rounded-lg hover:text-brand-900 hover:bg-slate-100 transition-colors">Calculator</a>
+        <a href="#budget-rules" class="px-2.5 py-2 rounded-lg hover:text-brand-900 hover:bg-slate-100 transition-colors hidden sm:inline-block">Key Rules</a>
+        <a href="#tax-guide" class="px-2.5 py-2 rounded-lg hover:text-brand-900 hover:bg-slate-100 transition-colors hidden md:inline-block">Tax-Saving Guide</a>
+        <a href="#faq" class="px-2.5 py-2 rounded-lg hover:text-brand-900 hover:bg-slate-100 transition-colors">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-b from-brand-900 via-brand-900 to-brand-950 text-white pt-10 pb-14 sm:pt-14 sm:pb-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-blue-200 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+          <span>2026/27 vs 2027/28 Tax Year Comparison</span>
+          <span class="text-white/40">&bull;</span>
+          <span class="text-emerald-300">England, Wales &amp; NI Rates</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+          See Exactly How the Autumn Budget 2026 Hits Your Wallet—And How Much You Can Save
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+          With Income Tax thresholds frozen until 2031 and tax on savings interest and rental profits rising by <strong class="text-white">4 percentage points in April 2027</strong>, test your exact numbers below and see how much a <strong class="text-emerald-300">£20,000 Cash ISA</strong> or <strong class="text-emerald-300">pension top-up</strong> shields.
+        </p>
+      </div>
+
+      <!-- Quick 1-Click Persona Presets -->
+      <div class="mt-8 pt-6 border-t border-white/10">
+        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
+          Test a realistic UK household profile in 1 click:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="preset-buttons">
+          <button type="button" data-preset="basic" class="preset-btn text-left p-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition-all flex flex-col justify-between group cursor-pointer">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-xs font-bold uppercase tracking-wide text-blue-300">Basic Rate Saver</span>
+              <span class="text-xs bg-white/10 px-2 py-0.5 rounded text-slate-200 group-hover:bg-blue-600 group-hover:text-white transition-colors">Load &rarr;</span>
+            </div>
+            <div class="mt-1.5 font-bold text-white text-base">£38,000 Salary</div>
+            <div class="text-xs text-slate-300 mt-0.5">£32k savings (breaches £1k PSA)</div>
+          </button>
+
+          <button type="button" data-preset="higher" class="preset-btn text-left p-3.5 rounded-xl bg-white/15 hover:bg-white/20 border-2 border-emerald-400/70 transition-all flex flex-col justify-between group cursor-pointer shadow-lg">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-xs font-bold uppercase tracking-wide text-emerald-300">Higher Rate Earner</span>
+              <span class="text-xs bg-emerald-500/20 text-emerald-200 px-2 py-0.5 rounded font-semibold">Active</span>
+            </div>
+            <div class="mt-1.5 font-bold text-white text-base">£62,000 Salary</div>
+            <div class="text-xs text-slate-300 mt-0.5">£25k savings (£500 PSA limit)</div>
+          </button>
+
+          <button type="button" data-preset="trap100k" class="preset-btn text-left p-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition-all flex flex-col justify-between group cursor-pointer">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-xs font-bold uppercase tracking-wide text-amber-300">£100k Tax-Trap Earner</span>
+              <span class="text-xs bg-white/10 px-2 py-0.5 rounded text-slate-200 group-hover:bg-blue-600 group-hover:text-white transition-colors">Load &rarr;</span>
+            </div>
+            <div class="mt-1.5 font-bold text-white text-base">£112,000 Salary</div>
+            <div class="text-xs text-slate-300 mt-0.5">60% effective marginal tax zone</div>
+          </button>
+
+          <button type="button" data-preset="landlord" class="preset-btn text-left p-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition-all flex flex-col justify-between group cursor-pointer">
+            <div class="flex items-center justify-between w-full">
+              <span class="text-xs font-bold uppercase tracking-wide text-rose-300">Landlord + Saver</span>
+              <span class="text-xs bg-white/10 px-2 py-0.5 rounded text-slate-200 group-hover:bg-blue-600 group-hover:text-white transition-colors">Load &rarr;</span>
+            </div>
+            <div class="mt-1.5 font-bold text-white text-base">£52,000 + £14k Rent</div>
+            <div class="text-xs text-slate-300 mt-0.5">Hit by both 4% April 2027 hikes</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Interactive Calculator Section -->
+  <main id="calculator" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+      
+      <!-- LEFT COLUMN: Interactive Controls (5 cols on lg) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Card 1: Income, Savings & Rental Inputs -->
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-5 sm:p-6">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Step 1</span>
+              <h2 class="text-lg font-bold text-brand-900">Your Annual Income &amp; Assets</h2>
+            </div>
+            <button type="button" id="reset-btn" class="text-xs font-semibold text-slate-500 hover:text-brand-900 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+              Reset
+            </button>
+          </div>
+
+          <div class="mt-5 space-y-6">
+            <!-- 1. Annual Gross Salary -->
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <label for="salary-number" class="text-sm font-semibold text-slate-800">
+                  Annual Gross Salary
+                </label>
+                <div class="relative w-32">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-sm">£</span>
+                  <input type="number" id="salary-number" min="15000" max="180000" step="500" value="62000"
+                    class="w-full pl-7 pr-2.5 py-1.5 text-right font-bold text-brand-900 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                </div>
+              </div>
+              <input type="range" id="salary-slider" min="15000" max="180000" step="500" value="62000" aria-label="Annual Gross Salary Slider" />
+              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                <span>£15,000</span>
+                <span>£50,270 (40% band)</span>
+                <span>£180,000</span>
+              </div>
+            </div>
+
+            <!-- 2. Total Cash Savings Balance + AER Slider -->
+            <div class="pt-4 border-t border-slate-100">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <label for="savings-number" class="text-sm font-semibold text-slate-800">
+                  Total Cash Savings Balance
+                </label>
+                <div class="relative w-32">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-sm">£</span>
+                  <input type="number" id="savings-number" min="0" max="120000" step="1000" value="25000"
+                    class="w-full pl-7 pr-2.5 py-1.5 text-right font-bold text-brand-900 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                </div>
+              </div>
+              <input type="range" id="savings-slider" min="0" max="120000" step="1000" value="25000" aria-label="Total Cash Savings Balance Slider" />
+              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                <span>£0</span>
+                <span>£60,000</span>
+                <span>£120,000</span>
+              </div>
+
+              <!-- Savings Interest Rate AER sub-control -->
+              <div class="mt-3.5 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+                <div class="flex items-center justify-between text-xs mb-1.5">
+                  <label for="aer-slider" class="font-medium text-slate-700">Average Savings Interest Rate (AER)</label>
+                  <span class="font-bold text-brand-900 bg-white px-2 py-0.5 rounded border border-slate-200" id="aer-display">4.50%</span>
+                </div>
+                <input type="range" id="aer-slider" min="1.0" max="6.5" step="0.1" value="4.5" aria-label="Savings Interest Rate AER Slider" />
+                <div class="flex justify-between items-center text-[11px] text-slate-500 mt-1.5">
+                  <span>Estimated Gross Interest:</span>
+                  <span class="font-bold text-slate-800" id="gross-interest-display">£1,125 / yr</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Annual Net Rental / Property Profit -->
+            <div class="pt-4 border-t border-slate-100">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div>
+                  <label for="rental-number" class="text-sm font-semibold text-slate-800 block">
+                    Annual Net Rental Profit
+                  </label>
+                  <span class="text-[11px] text-slate-500">Taxable profit after allowable expenses</span>
+                </div>
+                <div class="relative w-32">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-sm">£</span>
+                  <input type="number" id="rental-number" min="0" max="50000" step="500" value="0"
+                    class="w-full pl-7 pr-2.5 py-1.5 text-right font-bold text-brand-900 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" />
+                </div>
+              </div>
+              <input type="range" id="rental-slider" min="0" max="50000" step="500" value="0" aria-label="Annual Net Rental Profit Slider" />
+              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                <span>£0 (Not a landlord)</span>
+                <span>£25,000</span>
+                <span>£50,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Tax-Shield Planner (Cash ISA & Pension) -->
+        <div class="bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/70 rounded-2xl shadow-md border-2 border-emerald-500/40 p-5 sm:p-6">
+          <div class="flex items-start justify-between gap-2 pb-4 border-b border-emerald-200/70">
+            <div>
+              <span class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-emerald-700">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                Step 2 &bull; Tax-Shield Simulator
+              </span>
+              <h2 class="text-lg font-bold text-brand-900 mt-0.5">Cut Your Bill With ISAs &amp; Pensions</h2>
+            </div>
+            <button type="button" id="max-shields-btn" class="shrink-0 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg shadow-sm transition-colors cursor-pointer">
+              Auto-Optimise
+            </button>
+          </div>
+
+          <div class="mt-5 space-y-6">
+            <!-- Move Cash into Cash ISA -->
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <label for="isa-number" class="text-sm font-semibold text-slate-800">
+                  Move Cash into a Cash ISA
+                </label>
+                <div class="relative w-32">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-600 font-semibold text-sm">£</span>
+                  <input type="number" id="isa-number" min="0" max="20000" step="500" value="15000"
+                    class="w-full pl-7 pr-2.5 py-1.5 text-right font-bold text-emerald-800 bg-white border border-emerald-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 mb-2.5">
+                <span class="font-semibold text-emerald-700">Budget 2026 Rule:</span> Full <strong>£20,000</strong> annual Cash ISA limit retained for all ages. Capped at your savings balance.
+              </p>
+              <input type="range" id="isa-slider" class="emerald-slider" min="0" max="20000" step="500" value="15000" aria-label="Cash ISA Deposit Slider" />
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>£0</span>
+                <span id="isa-cap-note">Max £20,000/yr allowance</span>
+              </div>
+            </div>
+
+            <!-- Gross Pension Contribution -->
+            <div class="pt-4 border-t border-emerald-200/70">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <label for="pension-number" class="text-sm font-semibold text-slate-800">
+                  Gross Pension Contribution
+                </label>
+                <div class="relative w-32">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-600 font-semibold text-sm">£</span>
+                  <input type="number" id="pension-number" min="0" max="60000" step="500" value="6000"
+                    class="w-full pl-7 pr-2.5 py-1.5 text-right font-bold text-emerald-800 bg-white border border-emerald-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none" />
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 mb-2.5">
+                Total pension addition (your contribution + 20% HMRC relief). Up to <strong>£60,000</strong> annual allowance.
+              </p>
+              <input type="range" id="pension-slider" class="emerald-slider" min="0" max="60000" step="500" value="6000" aria-label="Gross Pension Contribution Slider" />
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+                <span>£0</span>
+                <span>£30,000</span>
+                <span>£60,000</span>
+              </div>
+
+              <!-- Salary Sacrifice Toggle -->
+              <div class="mt-4 bg-white p-3.5 rounded-xl border border-emerald-200 flex items-center justify-between gap-3">
+                <div>
+                  <label for="salary-sacrifice-toggle" class="text-xs font-bold text-slate-800 block cursor-pointer">
+                    Workplace Salary Sacrifice
+                  </label>
+                  <span class="text-[11px] text-slate-500 leading-tight block mt-0.5">
+                    Saves an extra <strong>8%</strong> (or <strong>2%</strong> above £50,270) in Employee National Insurance
+                  </span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                  <input type="checkbox" id="salary-sacrifice-toggle" class="sr-only peer" checked />
+                  <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-emerald-400 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Live Results, Visual Chart & Affiliate Action Cards (7 cols on lg) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- 3 Headline KPI Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- KPI 1: 2027/28 Budget Tax Hike (Before Shields) -->
+          <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 sm:p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">2027/28 Budget Hike</span>
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800" id="hike-badge">+4% Rates</span>
+              </div>
+              <div class="mt-2 text-2xl sm:text-3xl font-extrabold text-amber-600 tracking-tight" id="kpi-hike">
+                +£25
+              </div>
+            </div>
+            <p class="mt-2 text-xs text-slate-500 leading-snug" id="kpi-hike-sub">
+              Extra tax in 2027/28 vs 2026/27 if you take no action.
+            </p>
+          </div>
+
+          <!-- KPI 2: Annual Tax Saved via ISA & Pension -->
+          <div class="bg-white rounded-2xl shadow-md border-2 border-emerald-500/50 p-4 sm:p-5 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-bl-full pointer-events-none"></div>
+            <div>
+              <div class="flex items-center justify-between gap-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Annual Tax Saved</span>
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">ISA + Pension</span>
+              </div>
+              <div class="mt-2 text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight" id="kpi-saved">
+                £2,855
+              </div>
+            </div>
+            <p class="mt-2 text-xs text-slate-600 leading-snug" id="kpi-saved-sub">
+              Includes Income Tax, NI &amp; 2027/28 savings tax relief.
+            </p>
+          </div>
+
+          <!-- KPI 3: Effective Marginal Tax Rate -->
+          <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-4 sm:p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-1">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Marginal Rate</span>
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700" id="marginal-badge">Higher Rate</span>
+              </div>
+              <div class="mt-2 text-2xl sm:text-3xl font-extrabold text-brand-900 tracking-tight" id="kpi-marginal">
+                42.0%
+              </div>
+            </div>
+            <p class="mt-2 text-xs text-slate-500 leading-snug" id="kpi-marginal-sub">
+              Tax + NI lost on your next £1 of earned salary.
+            </p>
+          </div>
+        </div>
+
+        <!-- Alert Banner for £100k Tax Trap or PSA Restoration -->
+        <div id="smart-alert-banner" class="hidden rounded-2xl p-4 border flex items-start gap-3 text-sm">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Visual Comparison Chart Card (Interactive SVG Stacked Bar Chart) -->
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-brand-900">Total Annual Tax Breakdown</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Hover or tap any bar segment to inspect exact tax liabilities</p>
+            </div>
+            <!-- Share Result Button -->
+            <button type="button" id="share-btn" class="inline-flex items-center justify-center gap-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-xl transition-colors cursor-pointer self-start sm:self-auto">
+              <svg class="w-4 h-4 text-brand-900" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+              </svg>
+              <span id="share-btn-text">Share Result</span>
+            </button>
+          </div>
+
+          <!-- Legend -->
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-4 text-xs font-medium text-slate-700">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-sm bg-[#0f2342] inline-block"></span>
+              <span>Income Tax</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-sm bg-[#3b82f6] inline-block"></span>
+              <span>National Insurance</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-sm bg-[#f59e0b] inline-block"></span>
+              <span>Savings Interest Tax</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-sm bg-[#e11d48] inline-block"></span>
+              <span>Rental Property Tax</span>
+            </div>
+          </div>
+
+          <!-- Responsive SVG Chart Wrapper -->
+          <div class="relative mt-4 w-full" id="chart-container">
+            <svg id="tax-chart-svg" class="w-full h-72 sm:h-80 overflow-visible" viewBox="0 0 640 310" role="img" aria-label="Comparison of annual UK tax bills across 2026/27, 2027/28 without shields, and 2027/28 with Cash ISA and pension shields"></svg>
+            
+            <!-- Floating Interactive Tooltip -->
+            <div id="chart-tooltip" class="hidden pointer-events-none absolute z-30 bg-brand-950/95 text-white text-xs rounded-xl p-3 shadow-xl border border-slate-700 min-w-[190px]">
+              <div class="font-bold text-blue-300 border-b border-slate-700 pb-1 mb-1.5" id="tooltip-title">2027/28 (No Action)</div>
+              <div class="space-y-1" id="tooltip-body"></div>
+            </div>
+          </div>
+
+          <!-- Detailed Side-by-Side Ledger Table -->
+          <div class="mt-4 pt-4 border-t border-slate-100 overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="text-slate-500 border-b border-slate-200">
+                  <th class="py-2 font-semibold">Tax Category</th>
+                  <th class="py-2 text-right font-semibold">2026/27</th>
+                  <th class="py-2 text-right font-semibold text-amber-700">2027/28 (No Action)</th>
+                  <th class="py-2 text-right font-semibold text-emerald-700">2027/28 (Shielded)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700" id="breakdown-table-body">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- DYNAMIC MONETISATION SECTION: Personalised Action & Best-Buy Partner Offers -->
+        <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-5 sm:p-6" id="monetisation-box">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <h3 class="text-base sm:text-lg font-bold text-brand-900">Your Personalised Tax-Saving Checklist</h3>
+            </div>
+            <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Partner Offers &bull; Ad Disclosure</span>
+          </div>
+
+          <!-- Dynamic Conditional Affiliate Cards Container -->
+          <div class="mt-4 space-y-3.5" id="dynamic-offers-container">
+            <!-- Populated dynamically based on user's salary, savings tax & pension relief -->
+          </div>
+
+          <!-- Display Ad Network Slot Placeholder (For AdSense / Mediavine / Ezoic) -->
+          <div class="mt-5 pt-4 border-t border-slate-100">
+            <div class="rounded-xl bg-slate-50 border border-dashed border-slate-300 p-3.5 text-center">
+              <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-1">Advertisement Slot (728&times;90 / Responsive Display)</span>
+              <p class="text-xs text-slate-500">
+                Compare regulated UK savings accounts, Cash ISAs &amp; pension providers &mdash; FSCS protected up to £85,000 per banking group.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Supporting Content Section 1: What Changed in Autumn Budget 2026? -->
+  <section id="budget-rules" class="bg-white border-t border-slate-200 py-14 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Policy Breakdown</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-1">
+          What Actually Changed in the Autumn Budget 2026?
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base mt-2">
+          A clear, non-partisan summary of the four biggest measures affecting UK households in 2026/27 and April 2027.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+        <!-- Rule Card 1 -->
+        <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between">
+          <div>
+            <span class="inline-block text-xs font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 mb-3">From 6 April 2027</span>
+            <h3 class="font-bold text-brand-900 text-base">Savings Interest Tax +4%</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Interest earned outside an ISA above your Personal Savings Allowance (£1,000 basic / £500 higher / £0 additional) rises from 20%/40%/45% to <strong>24%, 44%, and 49%</strong>.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs font-semibold text-brand-800">
+            Impact: Hits savers with &gt;£22k at 4.5% AER
+          </div>
+        </div>
+
+        <!-- Rule Card 2 -->
+        <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between">
+          <div>
+            <span class="inline-block text-xs font-bold px-2.5 py-1 rounded-full bg-rose-100 text-rose-800 mb-3">From 6 April 2027</span>
+            <h3 class="font-bold text-brand-900 text-base">Rental Property Tax +4%</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Individual landlords in England, Wales, and Northern Ireland move to dedicated property income tax rates of <strong>24% (basic), 44% (higher), and 49% (additional)</strong>.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs font-semibold text-brand-800">
+            Impact: +£400 tax per £10,000 net rent
+          </div>
+        </div>
+
+        <!-- Rule Card 3 -->
+        <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between">
+          <div>
+            <span class="inline-block text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 mb-3">Retained in Full</span>
+            <h3 class="font-bold text-brand-900 text-base">£20,000 Cash ISA Limit Kept</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              Proposals to cut the Cash ISA cap to £12,000 for under-65s were scrapped. All UK adults retain the full <strong>£20,000 annual tax-free ISA allowance</strong>.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs font-semibold text-emerald-700">
+            Opportunity: Shield £20k every 6 April
+          </div>
+        </div>
+
+        <!-- Rule Card 4 -->
+        <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 flex flex-col justify-between">
+          <div>
+            <span class="inline-block text-xs font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 mb-3">Frozen Until 2031</span>
+            <h3 class="font-bold text-brand-900 text-base">Thresholds &amp; Fiscal Drag</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+              The £12,570 Personal Allowance and £50,270 Higher Rate threshold remain frozen, pulling more workers into 40% Income Tax and halving their savings allowance.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs font-semibold text-brand-800">
+            Relief: Standing charge reforms &amp; energy bill support
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supporting Content Section 2: Tax-Saving Strategy Guide -->
+  <section id="tax-guide" class="bg-slate-50 border-t border-slate-200 py-14 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Actionable Planning</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-1">
+          Three Legal Ways to Beat the 2027/28 Tax Squeeze
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base mt-2">
+          How UK savers and higher-rate taxpayers use existing HMRC allowances before the 5 April tax year deadline.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-lg mb-4">1</div>
+          <h3 class="font-bold text-brand-900 text-lg">Bed &amp; ISA Before 5 April</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            With savings tax hitting <strong>24% to 49%</strong> in April 2027, holding cash in a standard taxable bank account becomes far less efficient. Moving up to <strong>£20,000</strong> into a flexible Cash ISA locks in tax-free compounding permanently.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 font-extrabold flex items-center justify-center text-lg mb-4">2</div>
+          <h3 class="font-bold text-brand-900 text-lg">Reclaim Your £1,000 Savings Allowance</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            Earning just £1 over £50,270 cuts your Personal Savings Allowance from £1,000 to £500 and hikes your savings tax rate from 24% to 44%. Making a gross pension contribution brings your <em>Adjusted Net Income</em> back under £50,270.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 font-extrabold flex items-center justify-center text-lg mb-4">3</div>
+          <h3 class="font-bold text-brand-900 text-lg">Escape the 60% £100k–£125,140 Taper</h3>
+          <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+            For every £2 earned over £100,000, you lose £1 of your £12,570 Personal Allowance—creating an effective <strong>60% Income Tax rate</strong> (plus 2% NI). Pension contributions restore your Personal Allowance pound-for-pound.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Supporting Content Section 3: Interactive FAQ Accordion -->
+  <section id="faq" class="bg-white border-t border-slate-200 py-14 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Common Questions</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-900 mt-1">
+          Frequently Asked Questions
+        </h2>
+      </div>
+
+      <div class="space-y-3" id="faq-accordion">
+        <!-- FAQ Item 1 -->
+        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+          <button type="button" class="faq-toggle w-full text-left px-5 py-4 bg-slate-50 hover:bg-slate-100 flex items-center justify-between gap-4 font-bold text-brand-900 text-sm sm:text-base transition-colors cursor-pointer" aria-expanded="true">
+            <span>When do the new 24%, 44%, and 49% savings and rental tax rates start?</span>
+            <svg class="w-5 h-5 text-slate-500 transform rotate-180 transition-transform duration-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content px-5 py-4 bg-white text-sm text-slate-600 leading-relaxed border-t border-slate-200">
+            They take effect at the start of the <strong>2027/28 tax year on 6 April 2027</strong>. For the current 2026/27 tax year (running through 5 April 2027), savings interest above your Personal Savings Allowance and net rental income continue to be taxed at 20%, 40%, and 45%.
+          </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+          <button type="button" class="faq-toggle w-full text-left px-5 py-4 bg-slate-50 hover:bg-slate-100 flex items-center justify-between gap-4 font-bold text-brand-900 text-sm sm:text-base transition-colors cursor-pointer" aria-expanded="false">
+            <span>Did the Autumn Budget 2026 cut the £20,000 Cash ISA limit?</span>
+            <svg class="w-5 h-5 text-slate-500 transition-transform duration-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-5 py-4 bg-white text-sm text-slate-600 leading-relaxed border-t border-slate-200">
+            No. Although pre-Budget speculation suggested lowering the Cash ISA allowance to £12,000 for savers under 65, the Chancellor confirmed at the Autumn Budget 2026 that the full <strong>£20,000 annual ISA allowance</strong> remains available across Cash ISAs, Stocks &amp; Shares ISAs, or any combination of the two.
+          </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+          <button type="button" class="faq-toggle w-full text-left px-5 py-4 bg-slate-50 hover:bg-slate-100 flex items-center justify-between gap-4 font-bold text-brand-900 text-sm sm:text-base transition-colors cursor-pointer" aria-expanded="false">
+            <span>How does a pension contribution reduce my savings tax rate?</span>
+            <svg class="w-5 h-5 text-slate-500 transition-transform duration-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-5 py-4 bg-white text-sm text-slate-600 leading-relaxed border-t border-slate-200">
+            HMRC uses your <strong>Adjusted Net Income</strong> (total taxable income minus gross pension contributions and Gift Aid) to decide which tax band you sit in. If a pension contribution pulls your Adjusted Net Income from £55,000 down to £49,000, you drop back into the basic-rate band—doubling your Personal Savings Allowance from £500 to £1,000 and reducing your savings tax rate from 44% to 24%.
+          </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+          <button type="button" class="faq-toggle w-full text-left px-5 py-4 bg-slate-50 hover:bg-slate-100 flex items-center justify-between gap-4 font-bold text-brand-900 text-sm sm:text-base transition-colors cursor-pointer" aria-expanded="false">
+            <span>Does this calculator cover Scottish Income Tax bands?</span>
+            <svg class="w-5 h-5 text-slate-500 transition-transform duration-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-content hidden px-5 py-4 bg-white text-sm text-slate-600 leading-relaxed border-t border-slate-200">
+            This model uses the UK Income Tax and property income bands applicable in <strong>England, Wales, and Northern Ireland</strong>. Note that savings interest tax rates and the Personal Savings Allowance are set at a UK-wide level and apply identically in Scotland.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Regulatory Disclaimer & Affiliate Disclosure -->
+  <footer class="bg-brand-950 text-slate-400 py-12 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+      <div>
+        <div class="flex items-center gap-2 text-white font-extrabold text-lg">
+          <span class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-sm">£</span>
+          <span>BudgetCheck<span class="text-blue-400">UK</span></span>
+        </div>
+        <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+          Independent UK personal finance and policy simulation tool helping households model Autumn Budget changes, ISA allowances, and pension tax relief.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3">Important Financial Disclaimer</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          The calculations provided by BudgetCheck UK are for <strong>educational and estimation purposes only</strong> and do not constitute regulated financial, tax, or investment advice under the Financial Services and Markets Act 2000. Tax rules depend on individual circumstances and may change.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-white mb-3">How This Site Is Funded</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          BudgetCheck UK is free to use. We earn revenue through display advertising and regulated affiliate partnerships when visitors click through to compare Cash ISAs, savings accounts, or SIPP providers. Partner links never affect our tax calculation engine.
+        </p>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <p>&copy; 2026 BudgetCheck UK. All rights reserved.</p>
+      <p>Built for UK 2026/27 &amp; 2027/28 Tax Years (England, Wales &amp; NI).</p>
+    </div>
+  </footer>
+
+  <!-- Custom Non-Blocking Toast Message Box (Replaces alert()) -->
+  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300 translate-y-2 opacity-0">
+    <div class="bg-brand-950 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-2.5 text-sm font-medium">
+      <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+      </svg>
+      <span id="toast-message">Copied to clipboard!</span>
+    </div>
+  </div>
+
+  <!-- Application Logic & UK Tax Calculation Engine -->
+  <script>
+    (function () {
+      'use strict';
+
+      // =========================================================================
+      // 1. STATE & PRESETS CONFIGURATION
+      // =========================================================================
+      const PRESETS = {
+        basic: {
+          salary: 38000,
+          savings: 32000,
+          aer: 4.5,
+          rental: 0,
+          isa: 15000,
+          pension: 2000,
+          salarySacrifice: true
+        },
+        higher: {
+          salary: 62000,
+          savings: 25000,
+          aer: 4.5,
+          rental: 0,
+          isa: 15000,
+          pension: 6000,
+          salarySacrifice: true
+        },
+        trap100k: {
+          salary: 112000,
+          savings: 30000,
+          aer: 4.6,
+          rental: 0,
+          isa: 20000,
+          pension: 12000,
+          salarySacrifice: true
+        },
+        landlord: {
+          salary: 52000,
+          savings: 28000,
+          aer: 4.5,
+          rental: 14000,
+          isa: 20000,
+          pension: 4000,
+          salarySacrifice: false
+        }
+      };
+
+      const state = { ...PRESETS.higher };
+
+      // =========================================================================
+      // 2. DOM ELEMENT REFERENCES
+      // =========================================================================
+      const els = {
+        salaryNum: document.getElementById('salary-number'),
+        salarySlider: document.getElementById('salary-slider'),
+        savingsNum: document.getElementById('savings-number'),
+        savingsSlider: document.getElementById('savings-slider'),
+        aerSlider: document.getElementById('aer-slider'),
+        aerDisplay: document.getElementById('aer-display'),
+        grossInterestDisplay: document.getElementById('gross-interest-display'),
+        rentalNum: document.getElementById('rental-number'),
+        rentalSlider: document.getElementById('rental-slider'),
+        isaNum: document.getElementById('isa-number'),
+        isaSlider: document.getElementById('isa-slider'),
+        isaCapNote: document.getElementById('isa-cap-note'),
+        pensionNum: document.getElementById('pension-number'),
+        pensionSlider: document.getElementById('pension-slider'),
+        salSacToggle: document.getElementById('salary-sacrifice-toggle'),
+        resetBtn: document.getElementById('reset-btn'),
+        maxShieldsBtn: document.getElementById('max-shields-btn'),
+        shareBtn: document.getElementById('share-btn'),
+        shareBtnText: document.getElementById('share-btn-text'),
+
+        // KPI & Alerts
+        kpiHike: document.getElementById('kpi-hike'),
+        kpiHikeSub: document.getElementById('kpi-hike-sub'),
+        hikeBadge: document.getElementById('hike-badge'),
+        kpiSaved: document.getElementById('kpi-saved'),
+        kpiSavedSub: document.getElementById('kpi-saved-sub'),
+        kpiMarginal: document.getElementById('kpi-marginal'),
+        kpiMarginalSub: document.getElementById('kpi-marginal-sub'),
+        marginalBadge: document.getElementById('marginal-badge'),
+        alertBanner: document.getElementById('smart-alert-banner'),
+
+        // Chart & Table
+        chartSvg: document.getElementById('tax-chart-svg'),
+        tooltip: document.getElementById('chart-tooltip'),
+        tooltipTitle: document.getElementById('tooltip-title'),
+        tooltipBody: document.getElementById('tooltip-body'),
+        tableBody: document.getElementById('breakdown-table-body'),
+
+        // Dynamic Monetisation Offers
+        offersContainer: document.getElementById('dynamic-offers-container'),
+
+        // Toast
+        toast: document.getElementById('toast-notification'),
+        toastMsg: document.getElementById('toast-message')
+      };
+
+      // =========================================================================
+      // 3. FORMATTING & NOTIFICATION HELPERS
+      // =========================================================================
+      const fmtGBP = (val) => {
+        const rounded = Math.round(val);
+        return (rounded < 0 ? '-£' : '£') + Math.abs(rounded).toLocaleString('en-GB');
+      };
+
+      let toastTimer = null;
+      function showToast(message) {
+        els.toastMsg.textContent = message;
+        els.toast.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          els.toast.classList.remove('translate-y-2', 'opacity-0');
+        });
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          els.toast.classList.add('translate-y-2', 'opacity-0');
+          setTimeout(() => els.toast.classList.add('hidden'), 300);
+        }, 3000);
+      }
+
+      // =========================================================================
+      // 4. CORE UK TAX ENGINE (2026/27 & 2027/28 ENGLAND, WALES & NI RULES)
+      // =========================================================================
+      /**
+       * Computes exact UK tax liabilities for a single scenario.
+       * @param {Object} params
+       * @param {number} params.salary - Gross annual salary
+       * @param {number} params.savingsBalance - Total cash savings
+       * @param {number} params.aer - Savings interest rate (%)
+       * @param {number} params.rentalProfit - Net annual rental profit
+       * @param {number} params.isaDeposit - Amount sheltered inside Cash ISA (<= 20,000 & <= savingsBalance)
+       * @param {number} params.grossPension - Gross annual pension contribution
+       * @param {boolean} params.salarySacrifice - Whether pension is via workplace salary sacrifice
+       * @param {boolean} params.is2027Rules - True for 2027/28 (24%/44%/49% savings & property), False for 2026/27 (20%/40%/45%)
+       */
+      function calculateScenario({
+        salary,
+        savingsBalance,
+        aer,
+        rentalProfit,
+        isaDeposit,
+        grossPension,
+        salarySacrifice,
+        is2027Rules
+      }) {
+        // 1. Cap effective ISA deposit to actual savings balance and £20,000 annual cap
+        const effectiveIsa = Math.min(Math.max(0, isaDeposit), Math.min(20000, savingsBalance));
+        const taxableSavingsBalance = Math.max(0, savingsBalance - effectiveIsa);
+        const nonIsaInterest = taxableSavingsBalance * (aer / 100);
+        const totalInterest = savingsBalance * (aer / 100);
+
+        // 2. Effective pension cannot exceed gross salary
+        const effectivePension = Math.min(Math.max(0, grossPension), salary);
+
+        // 3. Earned salary after Salary Sacrifice (if enabled)
+        const earnedSalaryAfterSacrifice = salarySacrifice
+          ? Math.max(0, salary - effectivePension)
+          : salary;
+
+        // 4. Adjusted Net Income (determines Personal Allowance taper & PSA tier)
+        // If not salary sacrifice, relief-at-source / net-pay pension reduces Adjusted Net Income
+        const adjustedNetIncome = Math.max(
+          0,
+          earnedSalaryAfterSacrifice + rentalProfit + nonIsaInterest - (salarySacrifice ? 0 : effectivePension)
+        );
+
+        // 5. Personal Allowance (£12,570 tapered by £1 per £2 over £100,000)
+        const basePA = 12570;
+        const paReduction = adjustedNetIncome > 100000
+          ? Math.min(basePA, Math.floor((adjustedNetIncome - 100000) / 2))
+          : 0;
+        const personalAllowance = Math.max(0, basePA - paReduction);
+
+        // 6. Basic Rate Band width (£37,700, extended by gross relief-at-source pension)
+        const basicBandWidth = 37700 + (salarySacrifice ? 0 : effectivePension);
+        const higherRateCeiling = personalAllowance + basicBandWidth + (125140 - basePA); // £125,140 when PA=0
+
+        // Helper to slice taxable income across Personal Allowance -> Basic -> Higher -> Additional
+        // Order of taxation in UK law: 1) Non-savings (Salary + Rental), 2) Savings Interest
+        let remainingPA = personalAllowance;
+
+        // --- A. Salary Income Tax ---
+        const taxableSalary = Math.max(0, earnedSalaryAfterSacrifice - remainingPA);
+        remainingPA = Math.max(0, remainingPA - earnedSalaryAfterSacrifice);
+
+        const salBasic = Math.min(taxableSalary, basicBandWidth);
+        const salHigher = Math.min(Math.max(0, taxableSalary - basicBandWidth), Math.max(0, 125140 - basePA));
+        const salAdditional = Math.max(0, taxableSalary - salBasic - salHigher);
+
+        const salaryIncomeTax = salBasic * 0.20 + salHigher * 0.40 + salAdditional * 0.45;
+
+        // --- B. Rental / Property Income Tax ---
+        // In 2027/28, dedicated property rates are 24% / 44% / 49% (vs 20% / 40% / 45% in 2026/27)
+        const propRates = is2027Rules ? [0.24, 0.44, 0.49] : [0.20, 0.40, 0.45];
+        const taxableRental = Math.max(0, rentalProfit - remainingPA);
+        remainingPA = Math.max(0, remainingPA - rentalProfit);
+
+        const nonSavingsTaxableTotal = taxableSalary + taxableRental;
+        const remBasicAfterSal = Math.max(0, basicBandWidth - salBasic);
+        const remHigherAfterSal = Math.max(0, (125140 - basePA) - salHigher);
+
+        const rentBasic = Math.min(taxableRental, remBasicAfterSal);
+        const rentHigher = Math.min(Math.max(0, taxableRental - rentBasic), remHigherAfterSal);
+        const rentAdditional = Math.max(0, taxableRental - rentBasic - rentHigher);
+
+        const propertyTax =
+          rentBasic * propRates[0] +
+          rentHigher * propRates[1] +
+          rentAdditional * propRates[2];
+
+        // --- C. Savings Interest Tax ---
+        // Personal Savings Allowance (PSA): £1,000 basic (ANI <= £50,270), £500 higher (ANI <= £125,140), £0 additional
+        let psa = 1000;
+        if (adjustedNetIncome > 125140) {
+          psa = 0;
+        } else if (adjustedNetIncome > 50270) {
+          psa = 500;
+        }
+
+        // Starting Rate for Savings (up to £5,000 if non-savings income < £17,570)
+        const nonSavingsGross = earnedSalaryAfterSacrifice + rentalProfit;
+        const startingRateAllowance = nonSavingsGross < 17570
+          ? Math.max(0, 5000 - Math.max(0, nonSavingsGross - personalAllowance))
+          : 0;
+
+        // Remaining PA can also shelter savings interest
+        const interestAfterPA = Math.max(0, nonIsaInterest - remainingPA);
+        const taxableSavingsInterest = Math.max(0, interestAfterPA - startingRateAllowance - psa);
+
+        const savRates = is2027Rules ? [0.24, 0.44, 0.49] : [0.20, 0.40, 0.45];
+        const remBasicAfterRent = Math.max(0, remBasicAfterSal - rentBasic);
+        const remHigherAfterRent = Math.max(0, remHigherAfterSal - rentHigher);
+
+        const savBasic = Math.min(taxableSavingsInterest, remBasicAfterRent);
+        const savHigher = Math.min(Math.max(0, taxableSavingsInterest - savBasic), remHigherAfterRent);
+        const savAdditional = Math.max(0, taxableSavingsInterest - savBasic - savHigher);
+
+        const savingsTax =
+          savBasic * savRates[0] +
+          savHigher * savRates[1] +
+          savAdditional * savRates[2];
+
+        // --- D. Employee National Insurance (Class 1) ---
+        // 8% on earnings between £12,570 and £50,270; 2% above £50,270
+        const niMainBand = Math.max(0, Math.min(earnedSalaryAfterSacrifice, 50270) - 12570);
+        const niUpperBand = Math.max(0, earnedSalaryAfterSacrifice - 50270);
+        const employeeNI = niMainBand * 0.08 + niUpperBand * 0.02;
+
+        // --- E. Effective Marginal Rate on Next £1 of Salary ---
+        let marginalRate = 0;
+        let marginalLabel = 'Personal Allowance (0%)';
+        if (adjustedNetIncome > 100000 && adjustedNetIncome < 125140) {
+          marginalRate = 62.0; // 40% tax + 20% PA taper loss + 2% NI
+          marginalLabel = '60% Tax Trap + 2% NI';
+        } else if (adjustedNetIncome >= 125140) {
+          marginalRate = 47.0; // 45% + 2% NI
+          marginalLabel = 'Additional Rate (45%+2%)';
+        } else if (adjustedNetIncome > 50270) {
+          marginalRate = 42.0; // 40% + 2% NI
+          marginalLabel = 'Higher Rate (40%+2%)';
+        } else if (earnedSalaryAfterSacrifice > 12570) {
+          marginalRate = 28.0; // 20% + 8% NI
+          marginalLabel = 'Basic Rate (20%+8%)';
+        }
+
+        const totalTax = salaryIncomeTax + employeeNI + savingsTax + propertyTax;
+
+        return {
+          salaryIncomeTax,
+          employeeNI,
+          savingsTax,
+          propertyTax,
+          totalTax,
+          psa,
+          nonIsaInterest,
+          totalInterest,
+          taxableSavingsInterest,
+          adjustedNetIncome,
+          personalAllowance,
+          marginalRate,
+          marginalLabel,
+          effectiveIsa,
+          effectivePension
+        };
+      }
+
+      // =========================================================================
+      // 5. RENDER SVG STACKED BAR CHART
+      // =========================================================================
+      function renderStackedChart(s2026, s2027NoAction, s2027Shielded) {
+        const svg = els.chartSvg;
+        const scenarios = [
+          { label: '2026/27 Tax Year', sub: 'Current Rules', data: s2026 },
+          { label: '2027/28 (No Action)', sub: '+4% Savings/Rent Hike', data: s2027NoAction },
+          { label: '2027/28 (Shielded)', sub: 'With ISA & Pension', data: s2027Shielded }
+        ];
+
+        const maxTotal = Math.max(
+          1000,
+          s2026.totalTax,
+          s2027NoAction.totalTax,
+          s2027Shielded.totalTax
+        ) * 1.16;
+
+        const padLeft = 62;
+        const padRight = 24;
+        const padTop = 28;
+        const padBottom = 56;
+        const width = 640;
+        const height = 310;
+        const plotW = width - padLeft - padRight;
+        const plotH = height - padTop - padBottom;
+
+        let html = '';
+
+        // Horizontal Gridlines & Y-Axis Labels (4 steps)
+        const ticks = 4;
+        for (let i = 0; i <= ticks; i++) {
+          const val = (maxTotal / ticks) * i;
+          const y = padTop + plotH - (val / maxTotal) * plotH;
+          html += `
+            <line x1="${padLeft}" y1="${y}" x2="${width - padRight}" y2="${y}"
+              stroke="${i === 0 ? '#cbd5e1' : '#f1f5f9'}" stroke-width="${i === 0 ? 1.5 : 1}" />
+            <text x="${padLeft - 10}" y="${y + 4}" text-anchor="end" fill="#64748b" font-size="11" font-weight="500">
+              £${Math.round(val / 1000 * 10) / 10}k
+            </text>
+          `;
+        }
+
+        const colWidth = plotW / scenarios.length;
+        const barWidth = Math.min(86, colWidth * 0.52);
+
+        const segmentsConfig = [
+          { key: 'salaryIncomeTax', name: 'Income Tax', color: '#0f2342' },
+          { key: 'employeeNI', name: 'National Insurance', color: '#3b82f6' },
+          { key: 'savingsTax', name: 'Savings Interest Tax', color: '#f59e0b' },
+          { key: 'propertyTax', name: 'Rental Property Tax', color: '#e11d48' }
+        ];
+
+        scenarios.forEach((sc, idx) => {
+          const centerX = padLeft + colWidth * idx + colWidth / 2;
+          const barX = centerX - barWidth / 2;
+          let currentY = padTop + plotH;
+
+          // Subtle background highlight for shielded column
+          if (idx === 2) {
+            html += `
+              <rect x="${barX - 12}" y="${padTop - 16}" width="${barWidth + 24}" height="${plotH + 16}"
+                rx="12" fill="#ecfdf5" opacity="0.65" />
+            `;
+          }
+
+          segmentsConfig.forEach((seg) => {
+            const val = sc.data[seg.key];
+            if (val > 0) {
+              const segH = Math.max(2, (val / maxTotal) * plotH);
+              currentY -= segH;
+              html += `
+                <rect class="chart-bar-segment cursor-pointer"
+                  data-scenario="${idx}"
+                  x="${barX}" y="${currentY}" width="${barWidth}" height="${segH}"
+                  fill="${seg.color}" rx="2" />
+              `;
+            }
+          });
+
+          // Total value label above bar
+          const totalLabelY = Math.max(16, currentY - 8);
+          const totalColor = idx === 2 ? '#059669' : idx === 1 ? '#d97706' : '#0f2342';
+          html += `
+            <text x="${centerX}" y="${totalLabelY}" text-anchor="middle" fill="${totalColor}" font-size="13" font-weight="800">
+              ${fmtGBP(sc.data.totalTax)}
+            </text>
+          `;
+
+          // X-Axis Primary & Secondary Labels
+          html += `
+            <text x="${centerX}" y="${padTop + plotH + 20}" text-anchor="middle" fill="#0f2342" font-size="12" font-weight="700">
+              ${sc.label}
+            </text>
+            <text x="${centerX}" y="${padTop + plotH + 36}" text-anchor="middle" fill="${idx === 2 ? '#059669' : '#64748b'}" font-size="10.5" font-weight="500">
+              ${sc.sub}
+            </text>
+          `;
+        });
+
+        svg.innerHTML = html;
+
+        // Attach interactive hover/touch tooltip events
+        const bars = svg.querySelectorAll('.chart-bar-segment');
+        bars.forEach((bar) => {
+          const showTip = (e) => {
+            const scIdx = Number(bar.getAttribute('data-scenario'));
+            const sc = scenarios[scIdx];
+            const d = sc.data;
+            els.tooltipTitle.textContent = sc.label;
+            els.tooltipBody.innerHTML = `
+              <div class="flex justify-between gap-4"><span>Income Tax:</span><strong>${fmtGBP(d.salaryIncomeTax)}</strong></div>
+              <div class="flex justify-between gap-4"><span>National Insurance:</span><strong>${fmtGBP(d.employeeNI)}</strong></div>
+              <div class="flex justify-between gap-4 text-amber-300"><span>Savings Tax:</span><strong>${fmtGBP(d.savingsTax)}</strong></div>
+              ${d.propertyTax > 0 ? `<div class="flex justify-between gap-4 text-rose-300"><span>Rental Tax:</span><strong>${fmtGBP(d.propertyTax)}</strong></div>` : ''}
+              <div class="flex justify-between gap-4 border-t border-slate-700 pt-1 mt-1 text-white font-bold">
+                <span>Total Annual Tax:</span><span>${fmtGBP(d.totalTax)}</span>
+              </div>
+            `;
+            els.tooltip.classList.remove('hidden');
+
+            const rect = document.getElementById('chart-container').getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            let left = clientX - rect.left + 12;
+            if (left + 200 > rect.width) left = Math.max(8, clientX - rect.left - 205);
+            const top = Math.max(8, clientY - rect.top - 40);
+            els.tooltip.style.left = `${left}px`;
+            els.tooltip.style.top = `${top}px`;
+          };
+
+          bar.addEventListener('mousemove', showTip);
+          bar.addEventListener('touchstart', showTip, { passive: true });
+          bar.addEventListener('mouseleave', () => els.tooltip.classList.add('hidden'));
+        });
+      }
+
+      // =========================================================================
+      // 6. RENDER DETAILED TABLE, ALERTS & CONDITIONAL AFFILIATE OFFERS
+      // =========================================================================
+      function renderDynamicMonetisation(s2027NoAction, s2027Shielded) {
+        const offers = [];
+
+        // Offer 1: Conditional Cash ISA Card when user has savings interest at risk
+        if (s2027NoAction.savingsTax > 0 || state.savings > 5000) {
+          const unshieldedSavingsTax = Math.round(s2027NoAction.savingsTax);
+          const isaSaved = Math.round(s2027NoAction.savingsTax - s2027Shielded.savingsTax);
+          const taxRatePct = s2027NoAction.adjustedNetIncome > 125140 ? '49%' : s2027NoAction.adjustedNetIncome > 50270 ? '44%' : '24%';
+
+          offers.push(`
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50/70 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-emerald-800 bg-emerald-200/70 px-2 py-0.5 rounded">
+                  Cash ISA Opportunity &bull; £20,000 Limit Retained
+                </div>
+                <h4 class="font-bold text-brand-900 text-sm sm:text-base">
+                  ${unshieldedSavingsTax > 0
+                    ? `You face ${fmtGBP(unshieldedSavingsTax)}/yr in ${taxRatePct} savings tax from April 2027`
+                    : `Protect your ${fmtGBP(state.savings)} savings from future tax hikes`}
+                </h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  ${isaSaved > 0
+                    ? `Your simulated Cash ISA deposit saves <strong>${fmtGBP(isaSaved)} every year</strong> in tax. Compare top FSCS-protected UK Cash ISAs paying up to 4.65% AER.`
+                    : `Moving up to £20,000 into a tax-free Cash ISA shields your interest permanently from the new 24%/44%/49% HMRC rates.`}
+                </p>
+              </div>
+              <a href="#compare-cash-isas" data-offer="Cash ISA Comparison"
+                class="affiliate-cta shrink-0 inline-flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm px-4 py-3 rounded-xl shadow-sm transition-colors text-center">
+                <span>Compare Top Cash ISAs</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          `);
+        }
+
+        // Offer 2: Conditional SIPP / Personal Pension Card for Higher Rate or £100k Taper
+        if (state.salary > 50270 || state.pension > 0) {
+          const inTrap = state.salary > 100000 && state.salary <= 125140;
+          const reliefLabel = inTrap ? '60% effective' : state.salary > 125140 ? '45%' : state.salary > 50270 ? '40%' : '20%';
+          const pensionTaxSaved = Math.round(
+            (s2027NoAction.salaryIncomeTax + s2027NoAction.employeeNI) -
+            (s2027Shielded.salaryIncomeTax + s2027Shielded.employeeNI)
+          );
+
+          offers.push(`
+            <div class="rounded-xl border border-blue-200 bg-blue-50/70 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-blue-800 bg-blue-200/70 px-2 py-0.5 rounded">
+                  Pension Tax Relief &bull; ${reliefLabel} Relief Zone
+                </div>
+                <h4 class="font-bold text-brand-900 text-sm sm:text-base">
+                  ${inTrap
+                    ? `Escape the £100k–£125,140 60% tax trap with a SIPP top-up`
+                    : `Claim ${reliefLabel} tax relief on personal pension contributions`}
+                </h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  ${pensionTaxSaved > 0
+                    ? `Your simulated ${fmtGBP(s2027Shielded.effectivePension)} pension contribution cuts your Income Tax &amp; NI bill by <strong>${fmtGBP(pensionTaxSaved)}/yr</strong>.`
+                    : `Topping up a Self-Invested Personal Pension (SIPP) before 5 April reduces your Adjusted Net Income and restores lost allowances.`}
+                </p>
+              </div>
+              <a href="#compare-uk-sipps" data-offer="UK SIPP Providers"
+                class="affiliate-cta shrink-0 inline-flex items-center justify-center gap-1.5 bg-brand-900 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm px-4 py-3 rounded-xl shadow-sm transition-colors text-center">
+                <span>Compare Top UK SIPPs</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          `);
+        }
+
+        // Offer 3: Landlord Mortgage / Incorporation Guide if Rental Profit > 0
+        if (state.rental > 0) {
+          const rentHike = Math.round(s2027NoAction.propertyTax) - Math.round(s2027NoAction.propertyTax * (20 / 24));
+          offers.push(`
+            <div class="rounded-xl border border-rose-200 bg-rose-50/60 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <div class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-rose-800 bg-rose-200/70 px-2 py-0.5 rounded">
+                  Landlord Tax Alert &bull; April 2027
+                </div>
+                <h4 class="font-bold text-brand-900 text-sm sm:text-base">
+                  Offset the 4% rental tax hike with mortgage &amp; pension planning
+                </h4>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Your ${fmtGBP(state.rental)} rental profit faces <strong>${fmtGBP(s2027NoAction.propertyTax)}/yr</strong> in property tax from April 2027. Compare specialist buy-to-let remortgage deals and landlord tax guides.
+                </p>
+              </div>
+              <a href="#compare-btl-rates" data-offer="Buy-to-Let Remortgage Comparison"
+                class="affiliate-cta shrink-0 inline-flex items-center justify-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm px-4 py-3 rounded-xl shadow-sm transition-colors text-center">
+                <span>Check BTL Rates</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          `);
+        }
+
+        els.offersContainer.innerHTML = offers.join('');
+
+        // Attach demo click feedback for affiliate buttons
+        els.offersContainer.querySelectorAll('.affiliate-cta').forEach((link) => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const offerName = link.getAttribute('data-offer');
+            showToast(`Partner Link Ready: Connect your ${offerName} affiliate URL here!`);
+          });
+        });
+      }
+
+      // =========================================================================
+      // 7. MASTER RECALCULATE & UI UPDATE LOOP
+      // =========================================================================
+      function updateCalculator() {
+        // Sync input values & enforce realistic bounds
+        const effectiveIsaCap = Math.min(20000, state.savings);
+        if (state.isa > effectiveIsaCap) {
+          state.isa = effectiveIsaCap;
+          els.isaNum.value = state.isa;
+          els.isaSlider.value = state.isa;
+        }
+        els.isaSlider.max = effectiveIsaCap;
+        els.isaNum.max = effectiveIsaCap;
+        els.isaCapNote.textContent = state.savings < 20000
+          ? `Capped at your ${fmtGBP(state.savings)} savings`
+          : 'Max £20,000/yr ISA allowance';
+
+        // Update AER & Gross Interest displays
+        els.aerDisplay.textContent = `${state.aer.toFixed(2)}%`;
+        const totalGrossInterest = state.savings * (state.aer / 100);
+        els.grossInterestDisplay.textContent = `${fmtGBP(totalGrossInterest)} / yr`;
+
+        // Run 3 tax scenarios:
+        // 1) 2026/27 Baseline (No new shields)
+        const s2026 = calculateScenario({
+          salary: state.salary,
+          savingsBalance: state.savings,
+          aer: state.aer,
+          rentalProfit: state.rental,
+          isaDeposit: 0,
+          grossPension: 0,
+          salarySacrifice: false,
+          is2027Rules: false
+        });
+
+        // 2) 2027/28 No Action (Hit by 24%/44%/49% savings & property hike)
+        const s2027NoAction = calculateScenario({
+          salary: state.salary,
+          savingsBalance: state.savings,
+          aer: state.aer,
+          rentalProfit: state.rental,
+          isaDeposit: 0,
+          grossPension: 0,
+          salarySacrifice: false,
+          is2027Rules: true
+        });
+
+        // 3) 2027/28 With ISA & Pension Shields
+        const s2027Shielded = calculateScenario({
+          salary: state.salary,
+          savingsBalance: state.savings,
+          aer: state.aer,
+          rentalProfit: state.rental,
+          isaDeposit: state.isa,
+          grossPension: state.pension,
+          salarySacrifice: state.salarySacrifice,
+          is2027Rules: true
+        });
+
+        // Update KPI 1: 2027/28 Budget Tax Hike (Before Shields)
+        const budgetHike = Math.max(0, s2027NoAction.totalTax - s2026.totalTax);
+        els.kpiHike.textContent = budgetHike > 0 ? `+${fmtGBP(budgetHike)}` : '£0';
+        if (budgetHike > 0) {
+          els.kpiHike.className = 'mt-2 text-2xl sm:text-3xl font-extrabold text-amber-600 tracking-tight';
+          els.hikeBadge.textContent = '+4% Rates';
+          els.hikeBadge.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800';
+          els.kpiHikeSub.textContent = 'Extra tax in 2027/28 vs 2026/27 if you take no action.';
+        } else {
+          els.kpiHike.className = 'mt-2 text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight';
+          els.hikeBadge.textContent = 'Protected';
+          els.hikeBadge.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700';
+          els.kpiHikeSub.textContent = 'Your savings sit within your Personal Savings Allowance.';
+        }
+
+        // Update KPI 2: Annual Tax Saved via ISA & Pension
+        const totalSaved = Math.max(0, s2027NoAction.totalTax - s2027Shielded.totalTax);
+        els.kpiSaved.textContent = fmtGBP(totalSaved);
+        els.kpiSavedSub.textContent = totalSaved > 0
+          ? `Cuts your 2027/28 tax bill from ${fmtGBP(s2027NoAction.totalTax)} to ${fmtGBP(s2027Shielded.totalTax)}.`
+          : 'Increase Cash ISA or Pension sliders to model tax savings.';
+
+        // Update KPI 3: Effective Marginal Tax Rate
+        els.kpiMarginal.textContent = `${s2027NoAction.marginalRate.toFixed(1)}%`;
+        els.marginalBadge.textContent = s2027NoAction.marginalLabel;
+        if (s2027NoAction.marginalRate >= 60) {
+          els.kpiMarginal.className = 'mt-2 text-2xl sm:text-3xl font-extrabold text-rose-600 tracking-tight';
+          els.marginalBadge.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800';
+        } else {
+          els.kpiMarginal.className = 'mt-2 text-2xl sm:text-3xl font-extrabold text-brand-900 tracking-tight';
+          els.marginalBadge.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700';
+        }
+
+        // Smart Context Alert Banner (£100k Trap or Restored PSA)
+        const psaRestored = s2027Shielded.psa > s2027NoAction.psa;
+        const in100kTrap = s2027NoAction.adjustedNetIncome > 100000 && s2027NoAction.adjustedNetIncome < 125140;
+
+        if (in100kTrap) {
+          els.alertBanner.className = 'rounded-2xl p-4 border border-rose-200 bg-rose-50 text-rose-950 flex items-start gap-3 text-xs sm:text-sm';
+          els.alertBanner.innerHTML = `
+            <span class="text-lg leading-none">⚠️</span>
+            <div>
+              <strong>£100,000 Personal Allowance Taper Alert:</strong> Because your Adjusted Net Income is <strong>${fmtGBP(s2027NoAction.adjustedNetIncome)}</strong>, HMRC is withdrawing £1 of your tax-free Personal Allowance for every £2 earned over £100k—creating an effective <strong>62% marginal rate</strong> (Income Tax + NI). Making a pension contribution of <strong>${fmtGBP(s2027NoAction.adjustedNetIncome - 100000)}</strong> restores your full £12,570 allowance.
+            </div>
+          `;
+        } else if (psaRestored) {
+          els.alertBanner.className = 'rounded-2xl p-4 border border-emerald-200 bg-emerald-50 text-emerald-950 flex items-start gap-3 text-xs sm:text-sm';
+          els.alertBanner.innerHTML = `
+            <span class="text-lg leading-none">✨</span>
+            <div>
+              <strong>Double Tax-Shield Bonus Unlocked:</strong> Your pension contribution reduced your Adjusted Net Income to <strong>${fmtGBP(s2027Shielded.adjustedNetIncome)}</strong>—dropping you back into the Basic Rate band, doubling your Personal Savings Allowance from <strong>${fmtGBP(s2027NoAction.psa)} to ${fmtGBP(s2027Shielded.psa)}</strong>, and cutting your savings tax rate from 44% to 24%!
+            </div>
+          `;
+        } else {
+          els.alertBanner.className = 'hidden';
+        }
+
+        // Update Ledger Table
+        els.tableBody.innerHTML = `
+          <tr>
+            <td class="py-2.5 font-medium">Income Tax (Salary)</td>
+            <td class="py-2.5 text-right">${fmtGBP(s2026.salaryIncomeTax)}</td>
+            <td class="py-2.5 text-right">${fmtGBP(s2027NoAction.salaryIncomeTax)}</td>
+            <td class="py-2.5 text-right font-semibold text-emerald-700">${fmtGBP(s2027Shielded.salaryIncomeTax)}</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 font-medium">Employee National Insurance</td>
+            <td class="py-2.5 text-right">${fmtGBP(s2026.employeeNI)}</td>
+            <td class="py-2.5 text-right">${fmtGBP(s2027NoAction.employeeNI)}</td>
+            <td class="py-2.5 text-right font-semibold text-emerald-700">${fmtGBP(s2027Shielded.employeeNI)}</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 font-medium">Savings Interest Tax <span class="text-[11px] text-slate-400">(PSA: ${fmtGBP(s2027NoAction.psa)} &rarr; ${fmtGBP(s2027Shielded.psa)})</span></td>
+            <td class="py-2.5 text-right">${fmtGBP(s2026.savingsTax)}</td>
+            <td class="py-2.5 text-right font-semibold text-amber-700">${fmtGBP(s2027NoAction.savingsTax)}</td>
+            <td class="py-2.5 text-right font-semibold text-emerald-700">${fmtGBP(s2027Shielded.savingsTax)}</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 font-medium">Rental Property Tax</td>
+            <td class="py-2.5 text-right">${fmtGBP(s2026.propertyTax)}</td>
+            <td class="py-2.5 text-right ${s2027NoAction.propertyTax > 0 ? 'font-semibold text-rose-700' : ''}">${fmtGBP(s2027NoAction.propertyTax)}</td>
+            <td class="py-2.5 text-right font-semibold text-emerald-700">${fmtGBP(s2027Shielded.propertyTax)}</td>
+          </tr>
+          <tr class="bg-slate-50 font-extrabold text-brand-900">
+            <td class="py-3 px-2 rounded-l-lg">Total Annual Tax &amp; NI</td>
+            <td class="py-3 text-right">${fmtGBP(s2026.totalTax)}</td>
+            <td class="py-3 text-right text-amber-700">${fmtGBP(s2027NoAction.totalTax)}</td>
+            <td class="py-3 px-2 text-right text-emerald-700 rounded-r-lg">${fmtGBP(s2027Shielded.totalTax)}</td>
+          </tr>
+        `;
+
+        // Render SVG Bar Chart & Dynamic Affiliate Offers
+        renderStackedChart(s2026, s2027NoAction, s2027Shielded);
+        renderDynamicMonetisation(s2027NoAction, s2027Shielded);
+      }
+
+      // =========================================================================
+      // 8. EVENT LISTENERS & INTERACTIONS
+      // =========================================================================
+      function bindSliderAndNumber(slider, numInput, key, min, max) {
+        slider.addEventListener('input', () => {
+          state[key] = Number(slider.value);
+          numInput.value = state[key];
+          clearPresetHighlight();
+          updateCalculator();
+        });
+        numInput.addEventListener('input', () => {
+          let val = Number(numInput.value);
+          if (Number.isNaN(val)) val = min;
+          val = Math.max(min, Math.min(max, val));
+          state[key] = val;
+          slider.value = val;
+          clearPresetHighlight();
+          updateCalculator();
+        });
+      }
+
+      bindSliderAndNumber(els.salarySlider, els.salaryNum, 'salary', 15000, 180000);
+      bindSliderAndNumber(els.savingsSlider, els.savingsNum, 'savings', 0, 120000);
+      bindSliderAndNumber(els.rentalSlider, els.rentalNum, 'rental', 0, 50000);
+      bindSliderAndNumber(els.isaSlider, els.isaNum, 'isa', 0, 20000);
+      bindSliderAndNumber(els.pensionSlider, els.pensionNum, 'pension', 0, 60000);
+
+      els.aerSlider.addEventListener('input', () => {
+        state.aer = Number(els.aerSlider.value);
+        updateCalculator();
+      });
+
+      els.salSacToggle.addEventListener('change', () => {
+        state.salarySacrifice = els.salSacToggle.checked;
+        updateCalculator();
+      });
+
+      // Apply Preset Helper
+      function applyPreset(presetKey) {
+        const p = PRESETS[presetKey];
+        if (!p) return;
+        Object.assign(state, p);
+
+        els.salarySlider.value = state.salary;
+        els.salaryNum.value = state.salary;
+        els.savingsSlider.value = state.savings;
+        els.savingsNum.value = state.savings;
+        els.aerSlider.value = state.aer;
+        els.rentalSlider.value = state.rental;
+        els.rentalNum.value = state.rental;
+        els.isaSlider.value = state.isa;
+        els.isaNum.value = state.isa;
+        els.pensionSlider.value = state.pension;
+        els.pensionNum.value = state.pension;
+        els.salSacToggle.checked = state.salarySacrifice;
+
+        // Highlight active preset button
+        document.querySelectorAll('.preset-btn').forEach((btn) => {
+          const isMatch = btn.getAttribute('data-preset') === presetKey;
+          const badge = btn.querySelector('span:last-child');
+          if (isMatch) {
+            btn.classList.remove('bg-white/10', 'border-white/15');
+            btn.classList.add('bg-white/15', 'border-2', 'border-emerald-400/70', 'shadow-lg');
+            badge.textContent = 'Active';
+            badge.className = 'text-xs bg-emerald-500/20 text-emerald-200 px-2 py-0.5 rounded font-semibold';
+          } else {
+            btn.classList.remove('bg-white/15', 'border-2', 'border-emerald-400/70', 'shadow-lg');
+            btn.classList.add('bg-white/10', 'border', 'border-white/15');
+            badge.textContent = 'Load \u2192';
+            badge.className = 'text-xs bg-white/10 px-2 py-0.5 rounded text-slate-200 group-hover:bg-blue-600 group-hover:text-white transition-colors';
+          }
+        });
+
+        updateCalculator();
+      }
+
+      function clearPresetHighlight() {
+        document.querySelectorAll('.preset-btn').forEach((btn) => {
+          const badge = btn.querySelector('span:last-child');
+          btn.classList.remove('bg-white/15', 'border-2', 'border-emerald-400/70', 'shadow-lg');
+          btn.classList.add('bg-white/10', 'border', 'border-white/15');
+          badge.textContent = 'Load \u2192';
+          badge.className = 'text-xs bg-white/10 px-2 py-0.5 rounded text-slate-200 group-hover:bg-blue-600 group-hover:text-white transition-colors';
+        });
+      }
+
+      document.querySelectorAll('.preset-btn').forEach((btn) => {
+        btn.addEventListener('click', () => applyPreset(btn.getAttribute('data-preset')));
+      });
+
+      // Reset Button
+      els.resetBtn.addEventListener('click', () => {
+        applyPreset('higher');
+        showToast('Calculator reset to Higher Rate Earner (£62,000) baseline.');
+      });
+
+      // Auto-Optimise Shields Button
+      els.maxShieldsBtn.addEventListener('click', () => {
+        // Max out Cash ISA up to £20k or savings balance
+        state.isa = Math.min(20000, state.savings);
+        // Suggest optimal pension contribution to drop below £100k or £50,270 if within reach
+        if (state.salary > 100000 && state.salary <= 160000) {
+          state.pension = Math.min(60000, state.salary - 100000);
+        } else if (state.salary > 50270 && state.salary <= 85000) {
+          state.pension = Math.min(60000, state.salary - 50270);
+        } else {
+          state.pension = Math.min(10000, Math.round(state.salary * 0.1));
+        }
+
+        els.isaSlider.value = state.isa;
+        els.isaNum.value = state.isa;
+        els.pensionSlider.value = state.pension;
+        els.pensionNum.value = state.pension;
+        clearPresetHighlight();
+        updateCalculator();
+        showToast('Optimised Cash ISA & Pension shields for your income!');
+      });
+
+      // Share Result Button (Uses document.execCommand('copy') for iFrame reliability)
+      els.shareBtn.addEventListener('click', () => {
+        const shareText = `BudgetCheck UK (Autumn Budget 2026 Simulator): On a ${fmtGBP(state.salary)} salary with ${fmtGBP(state.savings)} savings, shielding ${fmtGBP(state.isa)} in a Cash ISA and ${fmtGBP(state.pension)} in a pension cuts my 2027/28 tax bill by ${els.kpiSaved.textContent}/yr! Check yours at BudgetCheck UK.`;
+        
+        const tempInput = document.createElement('textarea');
+        tempInput.value = shareText;
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          els.shareBtnText.textContent = 'Copied!';
+          showToast('Result summary copied! Ready to paste into WhatsApp or X.');
+          setTimeout(() => {
+            els.shareBtnText.textContent = 'Share Result';
+          }, 2500);
+        } catch (err) {
+          showToast('Could not copy automatically—please copy from the summary table.');
+        }
+        document.body.removeChild(tempInput);
+      });
+
+      // FAQ Accordion Interactivity
+      document.querySelectorAll('.faq-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const content = btn.nextElementSibling;
+          const icon = btn.querySelector('svg');
+          const isOpen = !content.classList.contains('hidden');
+
+          content.classList.toggle('hidden');
+          btn.setAttribute('aria-expanded', String(!isOpen));
+          icon.classList.toggle('rotate-180', !isOpen);
+        });
+      });
+
+      // Initial render on load
+      updateCalculator();
+    })();
+  </script>
+</body>
+</html>
